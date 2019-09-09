@@ -1,6 +1,5 @@
-import EventEmitter from "eventemitter3";
-import { get, set } from "lodash";
-
+import EventEmitter from 'eventemitter3';
+import {get, set} from 'lodash';
 
 export default () => {
     const eventEmitter = new EventEmitter();
@@ -15,22 +14,22 @@ export default () => {
         },
 
         getFormData: name => get(data, `formData${name ? ('.' + name) : ''}`),
-        getTableDataSource: () => get(data, "dataSource"),
-        getPagination: () => get(data, "pagination"),
+        getTableDataSource: () => get(data, 'dataSource'),
+        getPagination: () => get(data, 'pagination'),
 
         setFormData: data => {
-            eventEmitter.emit("setFormData", data);
+            eventEmitter.emit('setFormData', data);
         },
         setTableDataSource: dataSource => {
-            eventEmitter.emit("setTableDataSource", dataSource);
+            eventEmitter.emit('setTableDataSource', dataSource);
         },
         setPagination: pagination => {
-            eventEmitter.emit("setPagination", pagination);
+            eventEmitter.emit('setPagination', pagination);
         },
-    
+
         search: (params = {}, showLoading = true) => {
             return new Promise((resolve, reject) => {
-                eventEmitter.emit("search", params, {
+                eventEmitter.emit('search', params, {
                     callback: resolve,
                     showLoading
                 });

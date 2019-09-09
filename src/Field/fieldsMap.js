@@ -1,5 +1,10 @@
-import { Input, InputNumber, Select, DatePicker } from "antd";
-import SelectField from "./select";
+import {
+    Input,
+    InputNumber,
+    Select,
+    DatePicker
+} from 'antd';
+import SelectField from './select';
 
 export default {
     string: Input,

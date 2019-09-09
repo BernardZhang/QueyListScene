@@ -1,11 +1,10 @@
-import QueryListScene from "./QueryListScene";
-import Form from "./QueryForm";
-import Toolbar from "./Toolbar";
-import List from "./List";
-import Field from "./Field";
-import Actions from "./createActions";
-import "./index.less";
-
+import QueryListScene from './QueryListScene';
+import Form from './QueryForm';
+import Toolbar from './Toolbar';
+import List from './List';
+import Field from './Field';
+import Actions from './createActions';
+import './index.less';
 
 export const QueryForm = Form;
 export const QueryList = List;

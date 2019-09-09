@@ -136,8 +136,9 @@ ReactDOM.render(
 
 ### API
 #### QueryListScene
+
 |属性名称|属性说明|类型|默认值|是否必须|
-|--|--|--|--|--|
+|:--|:--|:--|:--|:--|
 |query|查询数据方法,调用时会把queryform数据作为参数|Promise|无|是|
 |actions|组件上聚合的方法，需由createActions方法创建出来|Object|无|否|
 |interval|轮训时间间隔单位ms，设置该值后列表可自动轮询|number|无|否|
@@ -145,12 +146,12 @@ ReactDOM.render(
 
 #### QueryForm
 |属性名称|属性说明|类型|默认值|是否必须|
-|--|--|--|--|
+|:--|:--|:--|:--|:--|
 |title|标题|string|无|否|否|
 
 #### Field
 |属性名称|属性说明|类型|默认值|是否必须|
-|--|--|--|--|
+|:--|:--|:--|:--|:--|
 |name|表单项名，保证唯一|string|无|是|
 |title|表单label|string|无|否|
 |type|表单类型string、number、select、date|无|否|
@@ -185,7 +186,3 @@ actions对象接口如下：
     search: (params?: Object, showLoading?: boolean = true)
 }
 ```
-
-
-
-

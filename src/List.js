@@ -1,208 +1,231 @@
-import React from "react";
-import { Table, Spin } from "antd";
+import React from 'react';
+import {Table, Spin} from 'antd';
 
 export default class QueryList extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			loading: false,
-			dataSource: [],
-			pagination: {
-				pageSize: 20,
-				current: 1,
-				total: 0
-			},
-			scroll: props.scroll
-		};
+    constructor(props) {
+        super(props);
+        this.state = {
+            loading: false,
+            dataSource: [],
+            pagination: {
+                pageSize: 20,
+                current: 1,
+                total: 0
+            },
+            scroll: props.scroll
+        };
 
-		const { actions } = props;
-		actions.on("search", this.onSearch);
-		actions.on("setTableDataSource", this.updateDataSource);
-		actions.on("setPagination", this.updatePagination);
-	}
+        const {actions} = props;
+        actions.on('search', this.onSearch);
+        actions.on('setTableDataSource', this.updateDataSource);
+        actions.on('setPagination', this.updatePagination);
+    }
 
-	render() {
-		const { columns, children, pagination, className = "", actions, ...rest } = this.props;
-		const { dataSource, loading, expandedRowKeys = [], scroll } = this.state;
-		const hasPagination = typeof pagination !== "undefined" ? pagination : true;
-		const paginaionInfo = {
-			...this.state.pagination,
-			showSizeChanger: true,
-			showTotal: total => `总共 ${total} 条`
-		};
-		const expandProps = {
-			...(rest.defaultExpandAllRows ? {
-				expandedRowKeys,
-				onExpandedRowsChange: this.onExpandedRowsChange
-			} : {})
-		};
+    render() {
+        const {
+            columns,
+            children,
+            pagination,
+            className = '',
+            actions,
+            ...rest
+        } = this.props;
+        const {
+            dataSource,
+            loading,
+            expandedRowKeys = [],
+            scroll
+        } = this.state;
+        const hasPagination = typeof pagination !== 'undefined' ? pagination : true;
+        const paginaionInfo = {
+            ...this.state.pagination,
+            showSizeChanger: true,
+            showTotal: total => `总共 ${total} 条`
+        };
+        const expandProps = {
+            ...(rest.defaultExpandAllRows ? {
+                        expandedRowKeys,
+                        onExpandedRowsChange: this.onExpandedRowsChange
+            } : {})
+        };
 
-		return (
-			<div className={`query-list-scene-list ${className}`}>
+        return (
+            <div className={`query-list-scene-list ${className}`}>
 				<Spin spinning={loading}>
 					<Table
-						size="middle"
-						{...expandProps}
-						{...rest}
-						{...(columns ? { columns } : {})}
-						scroll={scroll}
-						dataSource={dataSource}
-						pagination={hasPagination ? paginaionInfo : false}
-						onChange={this.onTableChange}
-					>
+            size='middle'
+            {...expandProps}
+            {...rest}
+            {...(columns ? {
+                columns
+            } : {})}
+            scroll={scroll}
+            dataSource={dataSource}
+            pagination={hasPagination ? paginaionInfo : false}
+            onChange={this.onTableChange}
+            >
 						{!columns && children}
 					</Table>
 				</Spin>
 			</div>
-		);
-	}
+            );
+    }
 
-	componentDidMount() {
-		this.fetchData(this.props.actions.getFormData());
-		if (this.state.scroll) {
-			window.addEventListener("resize", this.onWindowResize);
-		}
-	}
+    componentDidMount() {
+        this.fetchData(this.props.actions.getFormData());
+        if (this.state.scroll) {
+            window.addEventListener('resize', this.onWindowResize);
+        }
+    }
 
-	componentWillUnmount() {
-		this.props.actions.removeListener("search", this.onSearch);
-		window.removeEventListener("resize", this.onWindowResize);
-	}
+    componentWillUnmount() {
+        this.props.actions.removeListener('search', this.onSearch);
+        window.removeEventListener('resize', this.onWindowResize);
+    }
 
-	onWindowResize = evt => {
-		const { scroll } = this.state;
+    onWindowResize = evt => {
+        const {scroll} = this.state;
 
-		this.setState({
-			scroll: {
-				...scroll,
-				y: window.innerHeight - (this.props.top || 200)
-			}
-		});
-	}
+        this.setState({
+            scroll: {
+                ...scroll,
+                y: window.innerHeight - (this.props.top || 200)
+            }
+        });
+    }
 
-	componentDidMount() {
-		const { qlsProps, actions } = this.props;
-        
-		this.fetchData(actions.getFormData()).finally(() => {
-			// 轮询
-			if (qlsProps.interval) {
-				const doIntervalQuery = ms => {
-					this.timmer = setTimeout(() => {
-						// 如果有查询请求还未结束，则该次轮询不执行，重新设置下次轮询
-						if (!this.isFetching) {
-							this.fetchData(actions.getFormData(), {
-								isInterval: true,
-								showLoading: false
-							}).then(() => {
-								doIntervalQuery(ms);
-							});
-						} else {
-							doIntervalQuery(ms);
-						}
-					}, ms);
-				};
-				doIntervalQuery(qlsProps.interval);
-			}
-		});
+    componentDidMount() {
+        const {qlsProps, actions} = this.props;
 
-		if (this.state.scroll) {
-			window.addEventListener("resize", this.onWindowResize);
-		}
-	}
+        this.fetchData(actions.getFormData()).finally(() => {
+            // 轮询
+            if (qlsProps.interval) {
+                const doIntervalQuery = ms => {
+                    this.timmer = setTimeout(() => {
+                        // 如果有查询请求还未结束，则该次轮询不执行，重新设置下次轮询
+                        if (!this.isFetching) {
+                            this.fetchData(actions.getFormData(), {
+                                isInterval: true,
+                                showLoading: false
+                            }).then(() => {
+                                doIntervalQuery(ms);
+                            });
+                        }
+                        else {
+                            doIntervalQuery(ms);
+                        }
+                    }, ms);
+                };
+                doIntervalQuery(qlsProps.interval);
+            }
 
-	componentWillUnmount() {
-		this.props.actions.removeListener("search", this.onSearch);
-		this.timmer && clearTimeout(this.timmer);
-	}
+        });
 
-	fetchData = (params = {}, { callback, showLoading = true, isInterval } = {}) => {
-		const {
-			qlsProps: { query },
-			defaultExpandAllRows,
-			rowKey,
-			actions
-		} = this.props;
-		const { pagination } = this.state;
-		const hasPagination = this.props.pagination !== false;
+        if (this.state.scroll) {
+            window.addEventListener('resize', this.onWindowResize);
+        }
+    }
 
-		if (hasPagination) {
-			params = {
-				pageSize: pagination.pageSize,
-				current: pagination.current,
-				...params
-			};
-		}
+    componentWillUnmount() {
+        this.props.actions.removeListener('search', this.onSearch);
+        this.timmer && clearTimeout(this.timmer);
+    }
 
-		showLoading && this.setState({ loading: true });
+    fetchData = (params = {}, {
+            callback,
+            showLoading = true,
+            isInterval
+        } = {}) => {
+        const {
+            qlsProps: {query},
+            defaultExpandAllRows,
+            rowKey,
+            actions
+        } = this.props;
+        const {pagination} = this.state;
+        const hasPagination = this.props.pagination !== false;
 
-		// 当用户操作查询还未得到服务端响应前,不要执行轮询请求时序问题导致覆盖
-		if (!isInterval) {
-			this.isFetching = true;
-		}
+        if (hasPagination) {
+            params = {
+                pageSize: pagination.pageSize,
+                current: pagination.current,
+                ...params
+            };
+        }
 
-		return query(params)
-			.then(result => {
-				const dataSource = hasPagination ? result.data || [] : result;
+        showLoading && this.setState({
+            loading: true
+        });
 
-				this.setState(
-					{
-						loading: false,
-						dataSource,
-						pagination: hasPagination
-							? {
-									pageSize: result.pageSize || pagination.pageSize || 10,
-									current:
-										result.current || params.current || pagination.current || 1,
-									total: result.total || 0
-							  }
-							: null,
-						...(defaultExpandAllRows ? {
-							expandedRowKeys: dataSource.map(row => row[rowKey])
-						} : {})
-					},
-					() => {
-						actions.setData("pagination", this.state.pagination);
-						actions.setData("dataSource", this.state.dataSource);
-					}
-				);
-			})
-			.finally(() => {
-				this.isFetching = false;
-				showLoading && this.setState({ loading: false });
-				callback && callback();
-			});
-	};
+        // 当用户操作查询还未得到服务端响应前,不要执行轮询请求时序问题导致覆盖
+        if (!isInterval) {
+            this.isFetching = true;
+        }
 
-	updateDataSource = dataSource => {
-		this.setState({
-			dataSource
-		});
-	};
+        return query(params)
+            .then(result => {
+                const dataSource = hasPagination ? result.data || [] : result;
 
-	updatePagination = pagination => {
-		this.setState({
-			pagination
-		});
-	}
+                this.setState(
+                    {
+                        loading: false,
+                        dataSource,
+                        pagination: hasPagination
+                            ? {
+                                pageSize: result.pageSize || pagination.pageSize || 10,
+                                current: result.current || params.current || pagination.current || 1,
+                                total: result.total || 0
+                            }
+                            : null,
+                        ...(defaultExpandAllRows ? {
+                                    expandedRowKeys: dataSource.map(row => row[rowKey])
+                        } : {})
+                    },
+                    () => {
+                        actions.setData('pagination', this.state.pagination);
+                        actions.setData('dataSource', this.state.dataSource);
+                    }
+                );
+            })
+            .finally(() => {
+                this.isFetching = false;
+                showLoading && this.setState({
+                    loading: false
+                });
+                callback && callback();
+            });
+    };
 
-	onSearch = (values, { callback, showLoading = true } = {}) => {
-		this.formData = {
-			...this.formData,
-			...values
-		};
-		this.props.actions.setData("formData", this.formData);
-		return this.fetchData(this.formData, { callback, showLoading });
-	};
+    updateDataSource = dataSource => {
+        this.setState({
+            dataSource
+        });
+    };
 
-	onTableChange = (pagination, filters, sorter) => {
-		this.fetchData({
-			...this.formData,
-			pageSize: pagination.pageSize,
-			current: pagination.current,
-			...filters,
-			...sorter
-		});
-	};
+    updatePagination = pagination => {
+        this.setState({
+            pagination
+        });
+    }
+
+    onSearch = (values, {callback, showLoading = true} = {}) => {
+        this.formData = {
+            ...this.formData,
+            ...values
+        };
+        this.props.actions.setData('formData', this.formData);
+        return this.fetchData(this.formData, {callback, showLoading});
+    };
+
+    onTableChange = (pagination, filters, sorter) => {
+        this.fetchData({
+            ...this.formData,
+            pageSize: pagination.pageSize,
+            current: pagination.current,
+            ...filters,
+            ...sorter
+        });
+    };
 }
 
 // hooks
