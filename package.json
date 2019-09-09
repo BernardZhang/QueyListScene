@@ -1,0 +1,16 @@
+{
+  "name": "QueryListScene",
+  "version": "0.1.0",
+  "description": "Query List Page Component",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "peerDependencies": {
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0",
+    "antd": "^3.23.1"
+  }
+}

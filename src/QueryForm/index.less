@@ -1,0 +1,27 @@
+.query-list-scene-queryform {
+    display: flex;
+
+    .title {
+        font-size: 14px;
+        font-weight: bold;
+        display: inline-block;
+        line-height: 32px;
+    }
+
+    .ant-form {
+        flex: 1;
+        display: inline-block;
+        text-align: right;
+
+        & > * {
+            &:not(:last-child) {
+                margin-right: 10px;
+            }
+        }
+
+        .ant-form-item-control {
+            line-height: 32px;
+            min-width: 160px;
+        }
+    }
+}
