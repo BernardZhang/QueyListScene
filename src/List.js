@@ -1,3 +1,7 @@
+/**
+ * @file QueryList
+ * @author you.zhang
+ */
 import React from 'react';
 import {Table, Spin} from 'antd';
 
@@ -27,7 +31,6 @@ export default class QueryList extends React.Component {
             children,
             pagination,
             className = '',
-            actions,
             ...rest
         } = this.props;
         const {
@@ -44,46 +47,34 @@ export default class QueryList extends React.Component {
         };
         const expandProps = {
             ...(rest.defaultExpandAllRows ? {
-                        expandedRowKeys,
-                        onExpandedRowsChange: this.onExpandedRowsChange
+                expandedRowKeys,
+                onExpandedRowsChange: this.onExpandedRowsChange
             } : {})
         };
 
         return (
             <div className={`query-list-scene-list ${className}`}>
-				<Spin spinning={loading}>
-					<Table
-            size='middle'
-            {...expandProps}
-            {...rest}
-            {...(columns ? {
-                columns
-            } : {})}
-            scroll={scroll}
-            dataSource={dataSource}
-            pagination={hasPagination ? paginaionInfo : false}
-            onChange={this.onTableChange}
-            >
-						{!columns && children}
-					</Table>
-				</Spin>
-			</div>
-            );
+                <Spin spinning={loading}>
+                    <Table
+                        size='middle'
+                        {...expandProps}
+                        {...rest}
+                        {...(columns ? {
+                            columns
+                        } : {})}
+                        scroll={scroll}
+                        dataSource={dataSource}
+                        pagination={hasPagination ? paginaionInfo : false}
+                        onChange={this.onTableChange}
+                    >
+                        {!columns && children}
+                    </Table>
+                </Spin>
+            </div>
+        );
     }
 
-    componentDidMount() {
-        this.fetchData(this.props.actions.getFormData());
-        if (this.state.scroll) {
-            window.addEventListener('resize', this.onWindowResize);
-        }
-    }
-
-    componentWillUnmount() {
-        this.props.actions.removeListener('search', this.onSearch);
-        window.removeEventListener('resize', this.onWindowResize);
-    }
-
-    onWindowResize = evt => {
+    onWindowResize = () => {
         const {scroll} = this.state;
 
         this.setState({
@@ -128,6 +119,7 @@ export default class QueryList extends React.Component {
 
     componentWillUnmount() {
         this.props.actions.removeListener('search', this.onSearch);
+        window.removeEventListener('resize', this.onWindowResize);
         this.timmer && clearTimeout(this.timmer);
     }
 
@@ -170,15 +162,13 @@ export default class QueryList extends React.Component {
                     {
                         loading: false,
                         dataSource,
-                        pagination: hasPagination
-                            ? {
-                                pageSize: result.pageSize || pagination.pageSize || 10,
-                                current: result.current || params.current || pagination.current || 1,
-                                total: result.total || 0
-                            }
-                            : null,
+                        pagination: hasPagination ? {
+                            pageSize: result.pageSize || pagination.pageSize || 10,
+                            current: result.current || params.current || pagination.current || 1,
+                            total: result.total || 0
+                        } : null,
                         ...(defaultExpandAllRows ? {
-                                    expandedRowKeys: dataSource.map(row => row[rowKey])
+                            expandedRowKeys: dataSource.map(row => row[rowKey])
                         } : {})
                     },
                     () => {
