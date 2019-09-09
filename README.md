@@ -67,7 +67,12 @@ const columns = [
     {
         title: '创建时间',
         dataIndex: 'createTime',
-        width: 210
+        width: 200
+    },
+    {
+        title: '状态',
+        dataIndex: 'status',
+        width: 100
     },
     {
         title: '操作',
@@ -89,7 +94,8 @@ const query = ({ current = 1, pageSize, ...rest }) => {
                         id: index + 1,
                         name: `项目${index + 1}`,
                         owner: `张三${index + 1}`,
-                        createTime: '2019-09-10 16:30:34'
+                        createTime: '2019-09-10 16:30:34',
+                        status: ['初始化', '运行中', '成功', '失败'][index % 4]
                     })
                 ).slice((current - 1) * pageSize, current * pageSize)
             });
@@ -106,7 +112,10 @@ ReactDOM.render(
             <Field
                 type="select"
                 name="select"
-                props={{ options: [{ label: 'option1', value: 1}] }}
+                props={{
+                    placeholder: '状态',
+                    options: ['初始化', '运行中', '成功', '失败']
+                }}
             />
         </QueryForm>
         <Toolbar>
@@ -114,7 +123,7 @@ ReactDOM.render(
             <Button type="warning">删除</Button>
         </Toolbar>
         <QueryList
-            bordered={true}
+            bordered={false}
             columns={columns}
             top={480}
             scroll={{ y: window.innerHeight - 480 }}
@@ -127,22 +136,56 @@ ReactDOM.render(
 
 ### API
 #### QueryListScene
-|属性名称|属性说明|类型|默认值|
-|--|--|--|--|
-|query|查询数据方法|Promise|无|
-|actions|组件上聚合的方法，需由createActions方法创建出来|Object|无|
-|interval|轮训时间间隔单位ms，设置该值后列表可自动轮询|number|无|
-|className|css类|string|无|
+|属性名称|属性说明|类型|默认值|是否必须|
+|--|--|--|--|--|
+|query|查询数据方法,调用时会把queryform数据作为参数|Promise|无|是|
+|actions|组件上聚合的方法，需由createActions方法创建出来|Object|无|否|
+|interval|轮训时间间隔单位ms，设置该值后列表可自动轮询|number|无|否|
+|className|css类|string|无|否|
 
 #### QueryForm
-|属性名称|属性说明|类型|默认值|
+|属性名称|属性说明|类型|默认值|是否必须|
 |--|--|--|--|
-|title|标题|string|无|
+|title|标题|string|无|否|否|
+
+#### Field
+|属性名称|属性说明|类型|默认值|是否必须|
+|--|--|--|--|
+|name|表单项名，保证唯一|string|无|是|
+|title|表单label|string|无|否|
+|type|表单类型string、number、select、date|无|否|
+|props|表单元素属性，参照antd, Input, InputNumber, Select, DatePicker|Object|无|否|
 
 #### Toolbar
 无
 
 #### QueryList
 同antd Table
+
+#### createActions
+```
+const { createActions } = QueryListScene;
+const actions = createActions();
+
+actions对象接口如下：
+{
+    // 设置查询表单数据（自动查询）
+    setFormData: (data: Object),
+    // 设置表格数据
+    setTableDataSource: (dataSource: Array),
+    // 设置分页数据
+    setPagination: (
+        pagination: Object = {
+            current,
+            pageSize,
+            total
+        }
+    ),
+    // 查询列表, params 为查询参数，会扩展到formData上, showLoading：是否显示loading
+    search: (params?: Object, showLoading?: boolean = true)
+}
+```
+
+
 
 

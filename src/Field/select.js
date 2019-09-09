@@ -8,11 +8,16 @@ export default props => {
     return (
         <Select allowClear {...rest}>
             {
-                options.map(({ label, value }) => (
-                    <Option key={value} value={value}>
-                        {label}
-                    </Option>
-                ))
+                options.map(option => {
+                    if (option instanceof Object) {
+                        return (
+                            <Option key={option.value} value={option.value}>
+                                {option.label}
+                            </Option>
+                        );
+                    }
+                    return <Option key={option} value={option}>{option}</Option>;
+                })
             }
         </Select>
     );

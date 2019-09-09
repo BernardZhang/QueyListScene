@@ -185,7 +185,7 @@ export default class QueryList extends React.Component {
 		});
 	}
 
-	onSearch = (values, { callback, showLoading = true }) => {
+	onSearch = (values, { callback, showLoading = true } = {}) => {
 		this.formData = {
 			...this.formData,
 			...values
