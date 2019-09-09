@@ -1,16 +1,32 @@
 {
-  "name": "QueryListScene",
+  "name": "querylistscene",
   "version": "0.1.0",
   "description": "Query List Page Component",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "bernard.zhang",
+  "license": "MIT",
   "peerDependencies": {
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
     "antd": "^3.23.1"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BernardZhang/QueyListScene.git"
+  },
+  "keywords": [
+    "QueryListPage、List",
+    "Page、React、antd"
+  ],
+  "bugs": {
+    "url": "https://github.com/BernardZhang/QueyListScene/issues"
+  },
+  "homepage": "https://github.com/BernardZhang/QueyListScene#readme",
+  "dependencies": {
+    "user": "0.0.0"
   }
 }
