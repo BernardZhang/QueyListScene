@@ -56,17 +56,17 @@ export default class QueryList extends React.Component {
             <div className={`query-list-scene-list ${className}`}>
                 <Spin spinning={loading}>
                     <Table
-            size='middle'
-            {...expandProps}
-            {...rest}
-            {...(columns ? {
-                columns
-            } : {})}
-            scroll={scroll}
-            dataSource={dataSource}
-            pagination={hasPagination ? paginaionInfo : false}
-            onChange={this.onTableChange}
-            >
+                        size='middle'
+                        {...expandProps}
+                        {...rest}
+                        {...(columns ? {
+                            columns
+                        } : {})}
+                        scroll={scroll}
+                        dataSource={dataSource}
+                        pagination={hasPagination ? paginaionInfo : false}
+                        onChange={this.onTableChange}
+                    >
                         {!columns && children}
                     </Table>
                 </Spin>
