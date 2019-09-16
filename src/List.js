@@ -47,8 +47,8 @@ export default class QueryList extends React.Component {
         };
         const expandProps = {
             ...(rest.defaultExpandAllRows ? {
-                expandedRowKeys,
-                onExpandedRowsChange: this.onExpandedRowsChange
+                        expandedRowKeys,
+                        onExpandedRowsChange: this.onExpandedRowsChange
             } : {})
         };
 
@@ -56,22 +56,22 @@ export default class QueryList extends React.Component {
             <div className={`query-list-scene-list ${className}`}>
                 <Spin spinning={loading}>
                     <Table
-                        size='middle'
-                        {...expandProps}
-                        {...rest}
-                        {...(columns ? {
-                            columns
-                        } : {})}
-                        scroll={scroll}
-                        dataSource={dataSource}
-                        pagination={hasPagination ? paginaionInfo : false}
-                        onChange={this.onTableChange}
-                    >
+            size='middle'
+            {...expandProps}
+            {...rest}
+            {...(columns ? {
+                columns
+            } : {})}
+            scroll={scroll}
+            dataSource={dataSource}
+            pagination={hasPagination ? paginaionInfo : false}
+            onChange={this.onTableChange}
+            >
                         {!columns && children}
                     </Table>
                 </Spin>
             </div>
-        );
+            );
     }
 
     onWindowResize = () => {
@@ -168,7 +168,7 @@ export default class QueryList extends React.Component {
                             total: result.total || 0
                         } : null,
                         ...(defaultExpandAllRows ? {
-                            expandedRowKeys: dataSource.map(row => row[rowKey])
+                                    expandedRowKeys: dataSource.map(row => row[rowKey])
                         } : {})
                     },
                     () => {

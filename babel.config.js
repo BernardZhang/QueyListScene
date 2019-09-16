@@ -1,3 +1,8 @@
+/**
+ * @file babel 配置文件
+ * @author zhangyou
+ */
+
 const presets = [
     '@babel/env',
     '@babel/preset-react'
@@ -15,15 +20,18 @@ const plugins = [
         {
             loose: true
         }
-    ],
-    [
-        'import', 
+    ]
+];
+
+if (!process.env.WEBPACK_DEV_SERVER) {
+    plugins.push([
+        'import',
         {
             libraryName: 'antd',
             style: true,
             libraryDirectory: 'es'
         }
-    ]
-];
-  
-module.exports = { presets, plugins };
+    ]);
+}
+
+module.exports = {presets, plugins};

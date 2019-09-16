@@ -2,16 +2,17 @@
     display: flex;
 
     .title {
+        display: inline-block;
         font-size: 14px;
         font-weight: bold;
-        display: inline-block;
         line-height: 32px;
     }
 
     .ant-form {
-        flex: 1;
         display: inline-block;
         text-align: right;
+
+        flex: 1;
 
         & > * {
             &:not(:last-child) {
@@ -20,8 +21,8 @@
         }
 
         .ant-form-item-control {
-            line-height: 32px;
             min-width: 160px;
+            line-height: 32px;
         }
     }
 }

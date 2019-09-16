@@ -1,24 +1,26 @@
 .query-list-scene {
+    &-toolbar {
+        padding: 12px 0 20px;
 
-	&-toolbar {
-		padding: 12px 0 20px;
+        & > *:not(:last-child) {
+            margin-right: 12px;
+        }
+    }
 
-		& > *:not(:last-child) {
-			margin-right: 12px;
-		}
-	}
+    &-list {
+        .ant-table-pagination.ant-pagination {
+            margin-bottom: 0;
+            padding-bottom: 15px;
+        }
 
-	&-list {
-		.ant-table-pagination.ant-pagination {
-			margin-bottom: 0;
-			padding-bottom: 15px;
-		}
-
-		table {
-			margin-bottom: unset;
-			td, th {
-				border: unset;
-			}
-		}
-	}
+        .site-body & {
+            table {
+                margin-bottom: unset;
+                td,
+                th {
+                    border: unset;
+                }
+            }
+        } 
+    }
 }
