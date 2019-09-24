@@ -1,8 +1,26 @@
 .query-list-scene {
     margin: 14px 20px;
 
+    & > .title {
+        height: 48px;
+        background: #FFFFFF;
+        line-height: 48px;
+
+        & > span {
+            font-size: 16px;
+            color: #333333;
+            letter-spacing: 0;
+        }
+    }
+
+    &-content {
+        background: #EFF2F5;
+        padding: 16px 20px;
+    }
+
     &-toolbar {
-        padding: 12px 0 20px;
+        padding: 16px 16px 12px;
+        background: #fff;
 
         & > *:not(:last-child) {
             margin-right: 12px;

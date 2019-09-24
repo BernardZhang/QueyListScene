@@ -29,7 +29,7 @@ if (!process.env.WEBPACK_DEV_SERVER) {
         {
             libraryName: 'antd',
             style: true,
-            libraryDirectory: 'es'
+            // libraryDirectory: 'es'
         }
     ]);
 }

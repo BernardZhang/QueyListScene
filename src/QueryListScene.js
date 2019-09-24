@@ -1,4 +1,5 @@
 import React from 'react';
+import Title from './Title';
 import createActions from './createActions';
 
 export default class QueryListScene extends React.Component {
@@ -8,17 +9,24 @@ export default class QueryListScene extends React.Component {
     }
 
     render() {
-        const {children, className = ''} = this.props;
+        const {title, children, className = ''} = this.props;
 
         return (
             <div className={`query-list-scene ${className}`}>
                 {
-            React.Children.map(children, child => child && React.cloneElement(child, {
-                    qlsProps: this.props,
-                    actions: this.actions
-                }))
-            }
+                    title && (
+                       <Title title={title} />
+                    ) 
+                }
+                <div className="query-list-scene-content">
+                    {
+                        React.Children.map(children, child => child && React.cloneElement(child, {
+                            qlsProps: this.props,
+                            actions: this.actions
+                        }))
+                    }
+                </div>
             </div>
-            );
+        );
     }
 }

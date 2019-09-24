@@ -6,6 +6,10 @@
 const path = require('path');
 const {BundleAnalyzerPlugin} = require('webpack-bundle-analyzer');
 
+function resolve(dir) {
+	return 
+}
+
 module.exports = {
     mode: 'production',
     entry: './src/index.js',
@@ -27,8 +31,8 @@ module.exports = {
             },
             {
                 test: /\.css$/,
-                include: path.resolve(__dirname, 'src'),
-                exclude: /(node_modules|bower_components|lib)/,
+                // include: path.resolve(__dirname, 'src'),
+                // exclude: /(node_modules|bower_components|lib)/,
                 use: ['style-loader', 'css-loader']
             },
             {
@@ -39,14 +43,24 @@ module.exports = {
                     {
                         loader: 'less-loader',
                         options: {
-                            modules: false,
-                            javascriptEnabled: true
-                        }
+							modules: false,
+							javascriptEnabled: true,
+							// modifyVars: {
+                            //     // 'primary-color': 'red',
+							// 	hack: `true; @import "~@/theme.less";`
+							// }
+						}
                     }
                 ]
             }
         ]
     },
+    resolve: {
+		extensions: [".js", ".json"],
+		alias: {
+			"@": path.join(__dirname, "..", 'src')
+		}
+	},
     externals: {
         'react': 'commonjs react',
         'react-dom': 'react-dom'

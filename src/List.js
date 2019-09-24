@@ -47,8 +47,8 @@ export default class QueryList extends React.Component {
         };
         const expandProps = {
             ...(rest.defaultExpandAllRows ? {
-                        expandedRowKeys,
-                        onExpandedRowsChange: this.onExpandedRowsChange
+                expandedRowKeys,
+                onExpandedRowsChange: this.onExpandedRowsChange
             } : {})
         };
 

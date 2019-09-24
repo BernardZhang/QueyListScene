@@ -10,9 +10,34 @@
 
     .ant-form {
         display: inline-block;
-        text-align: right;
+        // text-align: right;
+        margin-bottom: 12px;
+        display: flex;
 
         flex: 1;
+
+        & > div:nth-child(1) {
+            height: 32px;
+            overflow: hidden;
+        }
+
+        &.expanded {
+            & > div:nth-child(1) {
+                height: auto;
+            }
+        }
+
+        &.showMore {
+            & > div:nth-child(1) {
+                .ant-form-item {
+                    margin-bottom: 12px;
+                }
+            }
+        }
+
+        & > div:nth-child(2) {
+            display: flex;
+        }
 
         & > * {
             &:not(:last-child) {
@@ -23,6 +48,13 @@
         .ant-form-item-control {
             min-width: 160px;
             line-height: 32px;
+        }
+    }
+
+    .extral-actions {
+        line-height: 32px;
+        & > * {
+            margin-left: 8px;
         }
     }
 }

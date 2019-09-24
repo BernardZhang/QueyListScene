@@ -9,7 +9,7 @@
 ```jsx
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Button, Popconfirm, Divider} from 'antd';
+import {Button, Popconfirm, Divider, Icon, ButtonGroup} from 'antd';
 import QueryListScene from './src';
 import 'antd/dist/antd.css';
 
@@ -103,15 +103,47 @@ const query = ({ current = 1, pageSize, ...rest }) => {
     });
 };
 
+const ExtralActions = (
+    <Button.Group>
+      <Button size="small" icon="import" />
+      <Button size="small" icon="export" />
+      <Button size="small" icon="setting" />
+    </Button.Group>
+);
 
 ReactDOM.render(
-    <QueryListScene query={query} actions={actions} interval={3000}>
-        <QueryForm title="项目管理">
+    <QueryListScene
+        title="项目管理"
+        query={query}
+        actions={actions}
+        interval={3000}
+    >
+        <QueryForm extralActions={ExtralActions}>
             <Field type="string" name="name" props={{ placeholder: "名称" }} />
             <Field type="date" name="date" />
             <Field
                 type="select"
                 name="select"
+                props={{
+                    placeholder: '状态',
+                    options: ['初始化', '运行中', '成功', '失败']
+                }}
+            />
+            <Field type="string" name="name1" props={{ placeholder: "名称" }} />
+            <Field type="date" name="date1" />
+            <Field
+                type="select"
+                name="select1"
+                props={{
+                    placeholder: '状态',
+                    options: ['初始化', '运行中', '成功', '失败']
+                }}
+            />
+            <Field type="string" name="name2" props={{ placeholder: "名称" }} />
+            <Field type="date" name="date2" />
+            <Field
+                type="select"
+                name="select2"
                 props={{
                     placeholder: '状态',
                     options: ['初始化', '运行中', '成功', '失败']
@@ -140,6 +172,7 @@ ReactDOM.render(
 |属性名称|属性说明|类型|默认值|是否必须|
 |:--|:--|:--|:--|:--|
 |query|查询数据方法,调用时会把queryform数据作为参数|Promise|无|是|
+|title|标题|string|无|否|
 |actions|组件上聚合的方法，需由createActions方法创建出来|Object|无|否|
 |interval|轮训时间间隔单位ms，设置该值后列表可自动轮询|number|无|否|
 |className|css类|string|无|否|
@@ -147,7 +180,8 @@ ReactDOM.render(
 #### QueryForm
 |属性名称|属性说明|类型|默认值|是否必须|
 |:--|:--|:--|:--|:--|
-|title|标题|string|无|否|否|
+|title|标题|string|无|否|
+|extralActions|额外操作|ReactNode|无|否|
 
 #### Field
 |属性名称|属性说明|类型|默认值|是否必须|

@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { createRef } from 'react';
+import classnames from 'classnames';
 import {Form, Button} from 'antd';
 import {get} from 'lodash';
 import './index.less';
@@ -7,6 +8,11 @@ import './index.less';
 export default class QueryForm extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {
+            showMore: false,
+            expanded: false
+        };
+        this.fieldsRef = createRef();
         props.actions.on('setFormData', this.setFormData);
     }
 
@@ -15,40 +21,70 @@ export default class QueryForm extends React.Component {
             title,
             children,
             className = '',
-            form
+            form,
+            extralActions
         } = this.props;
+        const { expanded, showMore } = this.state;
 
         return (
-            <div className={`query-list-scene-queryform ${className}`}>
+            <div className={classnames('query-list-scene-queryform', { [className]: className })}>
 				{
-            title && (
-            <span className='title'>{title}</span>
-            )
-            }
-				<Form layout='inline'>
-					{React.Children.map(
-                children,
-                child => child &&
-                    get(child, 'props.align') !== 'right' &&
-                    React.cloneElement(child, {
-                        form
-                    })
-            )}
-					<Button type='primary' onClick={this.onSubmit}>
-						查询
-					</Button>
-					<Button onClick={this.onReset}>重置</Button>
-					{React.Children.map(
-                children,
-                child => child &&
-                    get(child, 'props.align') === 'right' &&
-                    React.cloneElement(child, {
-                        form
-                    })
-            )}
+                    title && (
+                        <span className="title">{title}</span>
+                    )
+                }
+				<Form layout="inline" className={classnames({expanded: !showMore || expanded, showMore })}>
+                    <div ref={this.fieldsRef}>
+                        {React.Children.map(
+                            children,
+                            child => child &&
+                                get(child, 'props.align') !== 'right' &&
+                                React.cloneElement(child, {
+                                    form
+                                })
+                        )}
+                    </div>
+                    <div>
+                        {
+                            showMore && (
+                                <Button type="link" onClick={this.onToggleExpand}>
+                                    {expanded ? '收起' : '展开'}
+                                </Button>
+                            )
+                        }
+                        <Button type="primary" onClick={this.onSubmit}>
+                            查询
+                        </Button>
+                        <Button type="link" onClick={this.onReset}>重置</Button>
+                        {React.Children.map(
+                            children,
+                            child => child &&
+                                get(child, 'props.align') === 'right' &&
+                                React.cloneElement(child, {
+                                    form
+                                })
+                        )}
+                    </div>
 				</Form>
+                {
+                    extralActions && (
+                        <div className="extral-actions">
+                            {extralActions}
+                        </div>
+                    )
+                }
 			</div>
-            );
+        );
+    }
+
+    componentDidMount() {
+        const { current } = this.fieldsRef;
+debugger
+        if (current && current.clientHeight > 45) {
+            this.setState({
+                showMore: true
+            });
+        }
     }
 
     onSubmit = () => {
@@ -72,6 +108,13 @@ export default class QueryForm extends React.Component {
         onReset && onReset(values);
         this.onSubmit();
     };
+
+    onToggleExpand = () => {
+        this.setState({
+            expanded: !this.state.expanded
+        });
+    }
+    
 
     setFormData = data => {
         const {form} = this.props;

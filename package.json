@@ -1,6 +1,6 @@
 {
   "name": "querylistscene",
-  "version": "0.1.4",
+  "version": "0.5.0",
   "description": "Query List Page Component",
   "main": "lib/index.js",
   "scripts": {
