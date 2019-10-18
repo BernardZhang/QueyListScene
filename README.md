@@ -238,4 +238,5 @@ actions对象接口如下：
     getTableDataSource: (),
     // 获取分页数据
     getPagination: ()
+}
 ```
