@@ -208,13 +208,17 @@ export default class QueryList extends React.Component {
     };
 
     onTableChange = (pagination, filters, sorter) => {
-        this.fetchData({
-            ...this.formData,
-            pageSize: pagination.pageSize,
-            current: pagination.current,
-            ...filters,
-            ...sorter
-        });
+        // 排序变化暂时不处理，因为有时可能是前端sorter不需要走请求
+        // 所以暂时排序有使用者自己处理
+        if (!sorter.columnKey) {
+            this.fetchData({
+                ...this.formData,
+                pageSize: pagination.pageSize,
+                current: pagination.current,
+                ...filters,
+                ...sorter
+            });
+        }
     };
 }
 

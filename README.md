@@ -4,6 +4,18 @@
 - 样式统一，方便统一维护升级
 - 数据状态管理 + 通用逻辑涵盖(如Loading、分页、切换页码、查询、重置、自动轮询等)
 
+### 安装
+```
+npm install querylistscnene --save
+```
+
+### 运行demo
+```
+git clone https://github.com/BernardZhang/QueyListScene.git
+npm install
+npm run start
+```
+
 ### 代码演示
 
 ```jsx
@@ -57,7 +69,8 @@ const columns = [
     },
     {
         title: '项目名称',
-        dataIndex: 'name'
+        dataIndex: 'name',
+        sorter: (a, b) => a.name > b.name
     },
     {
         title: '管理员',
@@ -110,6 +123,7 @@ const ExtralActions = (
       <Button size="small" icon="setting" />
     </Button.Group>
 );
+// scroll={{ y: window.innerHeight - 480 }}
 
 ReactDOM.render(
     <QueryListScene
@@ -158,7 +172,6 @@ ReactDOM.render(
             bordered={false}
             columns={columns}
             top={480}
-            scroll={{ y: window.innerHeight - 480 }}
         />
     </QueryListScene>,
     document.getElementById('root')
@@ -217,6 +230,12 @@ actions对象接口如下：
         }
     ),
     // 查询列表, params 为查询参数，会扩展到formData上, showLoading：是否显示loading
-    search: (params?: Object, showLoading?: boolean = true)
-}
+    search: (params?: Object, showLoading?: boolean = true),
+
+    // 获取表单数据，name不传则是整个表单数据对象，传了name则获取单个表单值
+    getFormData: (name?: string),
+    // 获取列表数据
+    getTableDataSource: (),
+    // 获取分页数据
+    getPagination: ()
 ```

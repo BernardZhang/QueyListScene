@@ -1,7 +1,7 @@
 import React, { createRef } from 'react';
 import classnames from 'classnames';
-import {Form, Button} from 'antd';
-import {get} from 'lodash';
+import { Form, Button } from 'antd';
+import { get } from 'lodash';
 import './index.less';
 
 @Form.create()
@@ -79,7 +79,7 @@ export default class QueryForm extends React.Component {
 
     componentDidMount() {
         const { current } = this.fieldsRef;
-debugger
+
         if (current && current.clientHeight > 45) {
             this.setState({
                 showMore: true
