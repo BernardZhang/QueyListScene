@@ -1,5 +1,5 @@
 import EventEmitter from 'eventemitter3';
-import {get, set} from 'lodash';
+import { get, set } from 'lodash';
 
 export default () => {
     const eventEmitter = new EventEmitter();

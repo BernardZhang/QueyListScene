@@ -3,7 +3,8 @@
  * @author you.zhang
  */
 import React from 'react';
-import {Table, Spin} from 'antd';
+import { Table, Spin } from 'antd';
+import { get } from 'lodash';
 
 export default class QueryList extends React.Component {
     constructor(props) {
@@ -43,7 +44,10 @@ export default class QueryList extends React.Component {
         const paginaionInfo = {
             ...this.state.pagination,
             showSizeChanger: true,
-            showTotal: total => `总共 ${total} 条`
+            showTotal: total => `总共 ${total} 条`,
+            // onChange: this.onPageChange,
+            // onShowSizeChange: this.onPageSizeChange
+
         };
         const expandProps = {
             ...(rest.defaultExpandAllRows ? {
@@ -118,7 +122,11 @@ export default class QueryList extends React.Component {
     }
 
     componentWillUnmount() {
-        this.props.actions.removeListener('search', this.onSearch);
+        const { actions } = this.props;
+
+        actions.removeListener('search', this.onSearch);
+        actions.removeListener('setTableDataSource', this.updateDataSource);
+        actions.removeListener('setPagination', this.updatePagination);
         window.removeEventListener('resize', this.onWindowResize);
         this.timmer && clearTimeout(this.timmer);
     }
@@ -168,7 +176,7 @@ export default class QueryList extends React.Component {
                             total: result.total || 0
                         } : null,
                         ...(defaultExpandAllRows ? {
-                                    expandedRowKeys: dataSource.map(row => row[rowKey])
+                            expandedRowKeys: dataSource.map(row => row[rowKey])
                         } : {})
                     },
                     () => {
@@ -206,6 +214,22 @@ export default class QueryList extends React.Component {
         this.props.actions.setData('formData', this.formData);
         return this.fetchData(this.formData, {callback, showLoading});
     };
+
+    // onPageChange = (current, pageSize) => {
+    //     this.fetchData({
+    //         ...this.formData,
+    //         pageSize,
+    //         current
+    //     });
+    // }
+
+    // onPageSizeChange = (current, pageSize) => {
+    //     this.fetchData({
+    //         ...this.formData,
+    //         pageSize,
+    //         current
+    //     });
+    // }
 
     onTableChange = (pagination, filters, sorter) => {
         // 排序变化暂时不处理，因为有时可能是前端sorter不需要走请求

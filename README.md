@@ -130,7 +130,7 @@ ReactDOM.render(
         title="项目管理"
         query={query}
         actions={actions}
-        interval={3000}
+        interval={300000}
     >
         <QueryForm extralActions={ExtralActions}>
             <Field type="string" name="name" props={{ placeholder: "名称" }} />

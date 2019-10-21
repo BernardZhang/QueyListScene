@@ -121,4 +121,9 @@ export default class QueryForm extends React.Component {
         form.setFieldsValue(data);
         this.onSubmit();
     }
+
+    componentWillUnmount() {
+        this.props.actions.removeListener('setFormData', this.setFormData);
+    }
+
 }
