@@ -172,6 +172,8 @@ ReactDOM.render(
             bordered={false}
             columns={columns}
             top={480}
+            // pagination={false}
+            // localPagination={true}
         />
     </QueryListScene>,
     document.getElementById('root')
@@ -209,6 +211,10 @@ ReactDOM.render(
 
 #### QueryList
 同antd Table
+|属性名称|属性说明|类型|默认值|是否必须|
+|:--|:--|:--|:--|:--|
+|localPagination|前端分页，数据一次性从接口获取，前端分页时使用|boolean|false|否|
+
 
 #### createActions
 ```

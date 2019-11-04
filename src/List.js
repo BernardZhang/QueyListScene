@@ -31,6 +31,7 @@ export default class QueryList extends React.Component {
             columns,
             children,
             pagination,
+            localPagination = false,
             className = '',
             ...rest
         } = this.props;
@@ -68,7 +69,7 @@ export default class QueryList extends React.Component {
                         } : {})}
                         scroll={scroll}
                         dataSource={dataSource}
-                        pagination={hasPagination ? paginaionInfo : false}
+                        pagination={hasPagination ? paginaionInfo : localPagination}
                         onChange={this.onTableChange}
                     >
                         {!columns && children}
@@ -232,9 +233,11 @@ export default class QueryList extends React.Component {
     // }
 
     onTableChange = (pagination, filters, sorter) => {
+        const { actions, localPagination } = this.props;
+
         // 排序变化暂时不处理，因为有时可能是前端sorter不需要走请求
         // 所以暂时排序有使用者自己处理
-        if (!sorter.columnKey) {
+        if (!sorter.columnKey && !localPagination) {
             this.fetchData({
                 ...this.formData,
                 pageSize: pagination.pageSize,
@@ -242,6 +245,25 @@ export default class QueryList extends React.Component {
                 ...filters,
                 ...sorter
             });
+        }
+
+        const { dataSource, pagination: paginaionInfo } = this.state;
+
+        // 前端本地分页
+        if (localPagination) {
+            this.setState(
+                {
+                    dataSource,
+                    pagination: {
+                        ...paginaionInfo,
+                        ...pagination
+                    }
+                },
+                () => {
+                    actions.setData('pagination', this.state.pagination);
+                    // actions.setData('dataSource', this.state.dataSource);
+                }
+            );
         }
     };
 }
