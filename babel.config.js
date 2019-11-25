@@ -20,7 +20,29 @@ const plugins = [
         {
             loose: true
         }
-    ]
+    ],
+    // [
+    //     'babel-plugin-import-less',
+    //     {
+    //         library: 'antd',
+    //         module: 'lib/[dash]',
+    //         // import style
+    //         style: 'style'              // use less style
+    //         // or
+    //         // style: 'style/index.css'    // use css style
+    //     }
+    // ],
+    // [
+    //     'babel-plugin-import-less',
+    //     {
+    //         library: './',
+    //         module: '[dash]',
+    //         // import style
+    //         // style: 'style'              // use less style
+    //         // or
+    //         // style: 'style/index.css'    // use css style
+    //     }
+    // ]
 ];
 
 if (!process.env.WEBPACK_DEV_SERVER) {
@@ -28,8 +50,9 @@ if (!process.env.WEBPACK_DEV_SERVER) {
         'import',
         {
             libraryName: 'antd',
+            // libraryDirectory: 'es',
             style: true,
-            // libraryDirectory: 'es'
+        
         }
     ]);
 }

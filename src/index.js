@@ -5,7 +5,6 @@ import Toolbar from './Toolbar';
 import List from './List';
 import Field from './Field';
 import Actions from './createActions';
-import './index.less';
 
 export const QueryForm = Form;
 export const QueryList = List;
@@ -18,5 +17,4 @@ QueryListScene.QueryList = List;
 QueryListScene.Field = Field;
 
 QueryListScene.createActions = createActions;
-
 export default QueryListScene;

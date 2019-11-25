@@ -5,8 +5,9 @@
 import React from 'react';
 import { Table, Spin } from 'antd';
 import { get } from 'lodash';
+import styled from 'styled-components';
 
-export default class QueryList extends React.Component {
+export default styled(class QueryList extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -266,7 +267,22 @@ export default class QueryList extends React.Component {
             );
         }
     };
-}
+})`
+    background: #fff;
+
+    .ant-table-pagination.ant-pagination {
+        width: 100%;
+        text-align: right;
+        margin-bottom: 0;
+        padding: 15px 0;
+        background: #fff;
+        box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+        position: sticky;
+        bottom: 0;
+        margin-top: 0;
+        z-index: 1;
+    }
+`;
 
 // hooks
 // import React, { useState, useEffect } from "react";

@@ -19,11 +19,20 @@ npm run start
 ### 代码演示
 
 ```jsx
-import React from 'react';
+import React, { Fragment } from 'react';
 import ReactDOM from 'react-dom';
 import {Button, Popconfirm, Divider, Icon, ButtonGroup} from 'antd';
 import QueryListScene from './src';
+import { createGlobalStyle } from 'styled-components';
 import 'antd/dist/antd.css';
+
+const GlobalStyle = createGlobalStyle`
+  .site-body {
+    .ichYgh {
+        overflow: visible;
+    }
+}
+`;
 
 const { QueryForm, Field, Toolbar, QueryList, createActions } = QueryListScene;
 const actions = createActions();
@@ -126,11 +135,12 @@ const ExtralActions = (
 // scroll={{ y: window.innerHeight - 480 }}
 
 ReactDOM.render(
+    <Fragment>
     <QueryListScene
         title="项目管理"
         query={query}
         actions={actions}
-        interval={300000}
+        interval={3000}
     >
         <QueryForm extralActions={ExtralActions}>
             <Field type="string" name="name" props={{ placeholder: "名称" }} />
@@ -175,7 +185,9 @@ ReactDOM.render(
             // pagination={false}
             // localPagination={true}
         />
-    </QueryListScene>,
+    </QueryListScene>
+    <GlobalStyle />
+    </Fragment>,
     document.getElementById('root')
 )
 ```

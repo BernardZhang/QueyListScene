@@ -1,12 +1,12 @@
 {
   "name": "querylistscene",
-  "version": "0.5.3",
+  "version": "0.6.0",
   "description": "Query List Page Component",
   "main": "lib/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "doc-scripts start",
-    "build": "webpack"
+    "build": "npx babel src --out-dir lib"
   },
   "author": "bernard.zhang",
   "license": "MIT",

@@ -19,12 +19,12 @@ export default props => {
     return (
         <FormItem label={title}>
             {
-        getFieldDecorator(name, {
-            initialValue
-        })(
-            <Field {...fieldProps} />
-        )
-        }
+                getFieldDecorator(name, {
+                    initialValue
+                })(
+                    <Field {...fieldProps} />
+                )
+            }
         </FormItem>
-        );
+    );
 };

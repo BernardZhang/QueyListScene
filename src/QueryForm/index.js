@@ -1,8 +1,68 @@
 import React, { createRef } from 'react';
 import classnames from 'classnames';
+import styled from 'styled-components';
 import { Form, Button } from 'antd';
 import { get } from 'lodash';
-import './index.less';
+
+const QueryFormWraper = styled.div`
+    display: flex;
+
+    .ant-form {
+        display: inline-block;
+        margin-bottom: 12px;
+        display: flex;
+
+        flex: 1;
+
+        & > div:nth-child(1) {
+            height: 32px;
+            overflow: hidden;
+        }
+
+        &.expanded {
+            & > div:nth-child(1) {
+                height: auto;
+            }
+        }
+
+        &.showMore {
+            & > div:nth-child(1) {
+                .ant-form-item {
+                    margin-bottom: 12px;
+                }
+            }
+        }
+
+        & > div:nth-child(2) {
+            display: flex;
+        }
+
+        & > * {
+            &:not(:last-child) {
+                margin-right: 10px;
+            }
+        }
+
+        .ant-form-item-control {
+            min-width: 170px;
+            line-height: 32px;
+        }
+    }
+`;
+
+const Title = styled.span`
+    display: inline-block;
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 32px;
+`;
+
+const ExtralActions = styled.div`
+    line-height: 32px;
+    & > * {
+        margin-left: 8px;
+    }
+`;
 
 @Form.create()
 export default class QueryForm extends React.Component {
@@ -27,22 +87,22 @@ export default class QueryForm extends React.Component {
         const { expanded, showMore } = this.state;
 
         return (
-            <div className={classnames('query-list-scene-queryform', { [className]: className })}>
+            <QueryFormWraper className={className}>
 				{
-                    title && (
-                        <span className="title">{title}</span>
-                    )
+                    title && <Title>{title}</Title>
                 }
 				<Form layout="inline" className={classnames({expanded: !showMore || expanded, showMore })}>
                     <div ref={this.fieldsRef}>
-                        {React.Children.map(
-                            children,
-                            child => child &&
-                                get(child, 'props.align') !== 'right' &&
-                                React.cloneElement(child, {
-                                    form
-                                })
-                        )}
+                        {
+                            React.Children.map(
+                                children,
+                                child => (
+                                    child && get(child, 'props.align') !== 'right' && React.cloneElement(child, {
+                                        form
+                                    })
+                                )
+                            )
+                        }
                     </div>
                     <div>
                         {
@@ -56,24 +116,26 @@ export default class QueryForm extends React.Component {
                             查询
                         </Button>
                         <Button type="link" onClick={this.onReset}>重置</Button>
-                        {React.Children.map(
-                            children,
-                            child => child &&
-                                get(child, 'props.align') === 'right' &&
-                                React.cloneElement(child, {
-                                    form
-                                })
-                        )}
+                        {
+                            React.Children.map(
+                                children,
+                                child => (
+                                    child && get(child, 'props.align') === 'right' && React.cloneElement(child, {
+                                        form
+                                    })
+                                )
+                            )
+                        }
                     </div>
 				</Form>
                 {
                     extralActions && (
-                        <div className="extral-actions">
+                        <ExtralActions>
                             {extralActions}
-                        </div>
+                        </ExtralActions>
                     )
                 }
-			</div>
+			</QueryFormWraper>
         );
     }
 
@@ -114,7 +176,6 @@ export default class QueryForm extends React.Component {
             expanded: !this.state.expanded
         });
     }
-    
 
     setFormData = data => {
         const {form} = this.props;
@@ -125,5 +186,4 @@ export default class QueryForm extends React.Component {
     componentWillUnmount() {
         this.props.actions.removeListener('setFormData', this.setFormData);
     }
-
-}
+};
